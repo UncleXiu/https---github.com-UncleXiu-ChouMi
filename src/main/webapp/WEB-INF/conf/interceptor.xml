@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <mvc:interceptors>
+        <!-- 登录身份验证拦截器 -->
+        <mvc:interceptor>
+            <!-- 对所有的请求进行拦截 -->
+            <mvc:mapping path="/**"/>
+            <!-- 项目入口请求不做拦截 -->
+            <mvc:exclude-mapping path="/index.do"/>
+            <!-- 验证码请求不做拦截 -->
+            <mvc:exclude-mapping path="/verifyCode.do"/>
+            <!-- 登录请求不做拦截 -->
+            <mvc:exclude-mapping path="/UserLogin/Login.do"/>
+            <!-- 注册请求不做拦截 -->
+            <mvc:exclude-mapping path="/UserLogin/Register.do"/>
+            <!--======================= 临时区，开发完成后销毁 ========================-->
+            <mvc:exclude-mapping path="/UserLogin/PswChange.do"/>
+            <mvc:exclude-mapping path="/UserInfo/InsertInfo.do"/>
+            <mvc:exclude-mapping path="/account/account.do"/>
+            <!--======================= 临时区，开发完成后销毁 ========================-->
+            <!-- 拦截器类 -->
+            <bean class="com.cm.common.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+
+        <!-- 登录逻辑拦截器 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/UserLogin/Login.do"/>
+            <bean class="com.cm.common.interceptor.LoginOperInterceptor"/>
+        </mvc:interceptor>
+
+        <!-- 注册逻辑拦截器 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/UserLogin/Register.do"/>
+            <bean class="com.cm.common.interceptor.RegisterInterceptor"/>
+        </mvc:interceptor>
+
+    </mvc:interceptors>
+</beans>
